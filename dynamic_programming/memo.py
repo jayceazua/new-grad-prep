@@ -108,4 +108,25 @@ def bestSum(target, nums, memo = {}):
 # print(bestSum(7, [5, 3, 4, 7]))
 # print(bestSum(8, [2, 3, 5]))
 # print(bestSum(8, [1, 4, 5]))
-print(bestSum(100, [1, 2, 5, 25]))
+# print(bestSum(100, [1, 2, 5, 25]))
+
+def canConstruct(target, wordbank, memo = {}):
+  if target in memo:
+    return memo[target]
+
+  if target is "":
+    return True
+
+  for word in wordbank:
+    if target.find(word) is 0:
+
+      suffix = target[len(word):]
+      
+      if canConstruct(suffix, wordbank, memo):
+        memo[target] = True
+        return memo[target]
+  memo[target] = False
+  return memo[target]
+
+
+print(canConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd"]))
