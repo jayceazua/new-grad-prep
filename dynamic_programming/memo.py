@@ -81,7 +81,11 @@ def howSum(t, nums, memo = {}):
 # print(howSum(8, [2, 3, 5]))
 # print(howSum(300, [7, 14]))
 
-def bestSum(target, nums):
+def bestSum(target, nums, memo = {}):
+
+  if target in memo:
+    return memo[target]
+
   if target is 0:
     return []
   
@@ -98,10 +102,10 @@ def bestSum(target, nums):
       if shortest is None or len(combo) < len(shortest):
         shortest = combo
       
-  
+  memo[target] = shortest
   return shortest
 
-print(bestSum(7, [5, 3, 4, 7]))
+# print(bestSum(7, [5, 3, 4, 7]))
 # print(bestSum(8, [2, 3, 5]))
 # print(bestSum(8, [1, 4, 5]))
-# print(bestSum(100, [1, 2, 5, 25]))
+# print(bestSum(300, [1, 2, 5, 25]))
