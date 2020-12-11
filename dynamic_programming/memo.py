@@ -96,7 +96,7 @@ def bestSum(target, nums, memo = {}):
 
   for num in nums:
     remainder = target - num
-    result = bestSum(remainder, nums)
+    result = bestSum(remainder, nums, memo)
     if result is not None:
       combo = result + [num]
       if shortest is None or len(combo) < len(shortest):
@@ -108,4 +108,4 @@ def bestSum(target, nums, memo = {}):
 # print(bestSum(7, [5, 3, 4, 7]))
 # print(bestSum(8, [2, 3, 5]))
 # print(bestSum(8, [1, 4, 5]))
-# print(bestSum(300, [1, 2, 5, 25]))
+print(bestSum(100, [1, 2, 5, 25]))
