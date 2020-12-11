@@ -20,7 +20,8 @@ def gridTravel(m, n, memo={}):
 # print(gridTravel(3, 3))
 # print(gridTravel(18, 18))
 
-def canSum(targetSum, nums, memo = {}):
+
+def canSum(targetSum, nums, memo={}):
     """
       Write a function that takes in a targetSum and an array of numbers as arguments. 
       The function should return a boolean indicating whether or not it is possible 
@@ -29,7 +30,7 @@ def canSum(targetSum, nums, memo = {}):
         all input numbers are non-negative.
     """
     if targetSum in memo:
-      return memo[targetSum]
+        return memo[targetSum]
 
     if targetSum == 0:
         return True
@@ -42,9 +43,8 @@ def canSum(targetSum, nums, memo = {}):
         remainder = targetSum - num
 
         if canSum(remainder, nums, memo) == True:
-          memo[targetSum] = True
-          return True
-
+            memo[targetSum] = True
+            return True
 
     memo[targetSum] = False
     return False
@@ -53,80 +53,106 @@ def canSum(targetSum, nums, memo = {}):
 # print(canSum(7, [2, 4]))
 # print(canSum(300, [7, 14]))
 
-def howSum(t, nums, memo = {}):
 
-  if t in memo:
-    return memo[t]
+def howSum(t, nums, memo={}):
 
-  if t == 0:
-    return []
-  
-  if t < 0:
+    if t in memo:
+        return memo[t]
+
+    if t == 0:
+        return []
+
+    if t < 0:
+        return None
+
+    for num in nums:
+        remainder = t - num
+
+        result = howSum(remainder, nums, memo)
+
+        if result != None:
+            memo[t] = result + [num]
+            return memo[t]
+
+    memo[t] = None
     return None
-
-  for num in nums:
-    remainder = t - num
-
-    result = howSum(remainder, nums, memo)
-
-    if result != None:
-      memo[t] = result + [num]
-      return memo[t]
-
-  memo[t] = None
-  return None
 
 # print(howSum(7, [2, 3]))
 # print(howSum(7, [5, 3, 4, 7]))
 # print(howSum(8, [2, 3, 5]))
 # print(howSum(300, [7, 14]))
 
-def bestSum(target, nums, memo = {}):
 
-  if target in memo:
-    return memo[target]
+def bestSum(target, nums, memo={}):
 
-  if target is 0:
-    return []
-  
-  if target < 0:
-    return None
+    if target in memo:
+        return memo[target]
 
-  shortest = None
+    if target is 0:
+        return []
 
-  for num in nums:
-    remainder = target - num
-    result = bestSum(remainder, nums, memo)
-    if result is not None:
-      combo = result + [num]
-      if shortest is None or len(combo) < len(shortest):
-        shortest = combo
-      
-  memo[target] = shortest
-  return shortest
+    if target < 0:
+        return None
+
+    shortest = None
+
+    for num in nums:
+        remainder = target - num
+        result = bestSum(remainder, nums, memo)
+        if result is not None:
+            combo = result + [num]
+            if shortest is None or len(combo) < len(shortest):
+                shortest = combo
+
+    memo[target] = shortest
+    return shortest
 
 # print(bestSum(7, [5, 3, 4, 7]))
 # print(bestSum(8, [2, 3, 5]))
 # print(bestSum(8, [1, 4, 5]))
 # print(bestSum(100, [1, 2, 5, 25]))
 
-def canConstruct(target, wordbank, memo = {}):
-  if target in memo:
+
+def canConstruct(target, wordbank, memo={}):
+    if target in memo:
+        return memo[target]
+
+    if target is "":
+        return True
+
+    for word in wordbank:
+        if target.find(word) is 0:
+
+            suffix = target[len(word):]
+
+            if canConstruct(suffix, wordbank, memo):
+                memo[target] = True
+                return memo[target]
+
+    memo[target] = False
     return memo[target]
 
-  if target is "":
-    return True
 
-  for word in wordbank:
-    if target.find(word) is 0:
+# print(canConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd"]))
 
-      suffix = target[len(word):]
-      
-      if canConstruct(suffix, wordbank, memo):
-        memo[target] = True
+def countConstruct(target, wordbank, memo={}):
+
+    if target in memo:
         return memo[target]
-  memo[target] = False
-  return memo[target]
+
+    if target == "":
+        return 1
+
+    totalCount = 0
+    for word in wordbank:
+
+        if target.find(word) is 0:
+            suffix = target[len(word):]
+            totalCount += countConstruct(suffix, wordbank, memo)
+
+    memo[target] = totalCount
+    return memo[target]
 
 
-print(canConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd"]))
+# print(countConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd"]))
+print(countConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd", "ef"]))
