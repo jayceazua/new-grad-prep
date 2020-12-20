@@ -1,18 +1,18 @@
-def gridTravel(m, n, memo={}):
+# def gridTravel(m, n, memo={}):
 
-    key = tuple((m, n))
-    if key in memo:
-        return memo[key]
+#     key = tuple((m, n))
+#     if key in memo:
+#         return memo[key]
 
-    if m == 1 and n == 1:
-        return 1
+#     if m == 1 and n == 1:
+#         return 1
 
-    if m == 0 or n == 0:
-        return 0
-    # down, right
-    memo[key] = gridTravel(m - 1, n, memo) + gridTravel(m, n - 1, memo)
+#     if m == 0 or n == 0:
+#         return 0
+#     # down, right
+#     memo[key] = gridTravel(m - 1, n, memo) + gridTravel(m, n - 1, memo)
 
-    return memo[key]
+#     return memo[key]
 
 # slow program > wrong program
 # print(gridTravel(1, 1))
@@ -155,4 +155,69 @@ def countConstruct(target, wordbank, memo={}):
 
 
 # print(countConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd"]))
-print(countConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd", "ef"]))
+# print(countConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd", "ef"]))
+
+
+def allConstruct(target, wordbank):
+  if target == "":
+    return [[]]
+
+  result = []
+
+  for word in wordbank:
+    if target.find(word) == 0:
+      suffix = target[len(word):]
+      suffixWays = allConstruct(suffix, wordbank)
+      targetWays = list(map(lambda way: [word, way], suffixWays))
+      result += targetWays
+  
+  return result
+
+
+# print(allConstruct("abcdef", ["ab", "abc", "cd", "def", "abcd"]))
+
+
+def fib_tab(n):
+    # build table with initial values
+    dp = [0 for i in range(n + 1)]
+    # seed a default value
+    dp[1] = 1
+
+    # iterate through the table
+    for i in range(n + 1):
+        # fill further positions based on the current position
+        if i + 1 <= n:
+            dp[i + 1] += dp[i]
+        if i + 2 <= n:
+            dp[i + 2] += dp[i]
+    return dp[n]
+
+print(fib_tab(6))
+print(fib_tab(8))
+
+
+def gridTravel_tab(m, n):
+    # visualize the problem as a table
+    # size the table based on the inputs
+    # initialize the table with default values
+    dp = [[0 for j in range(n + 1)] for i in range(m + 1)]
+    # seed the trivial answer into the table
+    dp[1][1] = 1
+    print("Table:", dp)
+
+    # iterate through the table
+    for row in range(m + 1):
+        for col in range(n + 1):
+            current = dp[row][col]
+            # fill further positions based on the current position
+            if col + 1 <= n:
+                dp[row][col + 1] += current
+            if row + 1 <= m:
+                dp[row + 1][col] += current
+    print("Table:", dp)
+    return dp[m][n]
+
+
+print(gridTravel_tab(3, 3)) # 6
+
+
