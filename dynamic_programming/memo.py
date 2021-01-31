@@ -192,8 +192,8 @@ def fib_tab(n):
             dp[i + 2] += dp[i]
     return dp[n]
 
-print(fib_tab(6))
-print(fib_tab(8))
+# print(fib_tab(6))
+# print(fib_tab(8))
 
 
 def gridTravel_tab(m, n):
@@ -218,6 +218,22 @@ def gridTravel_tab(m, n):
     return dp[m][n]
 
 
-print(gridTravel_tab(3, 3)) # 6
+# print(gridTravel_tab(3, 3)) # 6
+
+def canSum_tab(k, nums):
+    dp = [False for _ in range(k + 1)]
+    dp[0] = True
+
+    for i in range(k + 1):
+        if dp[i] == 0:
+            for num in nums:
+                    if (i + num) <= k:
+                        dp[i + num] = True
+    
+    return dp[k]
 
 
+# print(canSum_tab(7, [2, 3]))
+print(canSum_tab(7, [5, 3, 4, 7]))
+print(canSum_tab(7, [2, 4]))
+print(canSum_tab(8, [2, 3, 5]))
